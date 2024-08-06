@@ -8,7 +8,7 @@ SCREEN_SIZE = (WIDTH, HEIGHT)
 SPAWN_SQUARE = pygame.USEREVENT + 1
 
 screen = pygame.display.set_mode(SCREEN_SIZE)
-pygame.display.set_caption("Animations")
+pygame.display.set_caption("Square Animations")
 
 clock = pygame.time.Clock()
 

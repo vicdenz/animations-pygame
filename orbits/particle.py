@@ -18,7 +18,7 @@ class Particle:
 	def calculate_grav_force(self, p2):
 		dist = p2.pos - self.pos
 		r = np.linalg.norm(dist)
-		if r == 0:
+		if r <= self.radius + p2.radius:
 			return np.zeros(2, dtype=float)
 
 		g_force = self.G * self.mass * p2.mass / r**2

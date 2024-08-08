@@ -23,14 +23,21 @@ def new_particles():
 
 	particles = []
 	for i in range(n):
-		mass = randint(1, 5)
-		particles.append(Particle(randint(10, WIDTH-10), randint(10, HEIGHT-10), mass, mass*5, (i*(255//n), i*(255//n), i*(255//n))))
+		mass = randint(1, 1)
+		particles.append(Particle(randint(10, WIDTH-10), randint(10, HEIGHT-10), mass, mass*10, (randint(50, 200), randint(50, 200), randint(50, 200))))
 		particles[i].set_vel(np.array([randint(-5, 5), randint(-5, 5)], dtype=float))
 
-new_particles()
+sqrt3_by_2 = 0.86602540378
+particles = [
+	Particle(300, 300, 1, 10, (155, 20, 20)),
+	Particle(200, 300+100*sqrt3_by_2, 1, 10, (20, 155, 20)),
+	Particle(400, 300+100*sqrt3_by_2, 1, 10, (20, 20, 155)),
+]
+path = []
+# new_particles()
 
 last_time = time.time()
-FPS = 60
+FPS = 120
 running = True
 while running:
 	dt = (time.time() - last_time) * FPS
@@ -46,6 +53,7 @@ while running:
 			
 			if event.key == pygame.K_SPACE:
 				new_particles()
+				path = []
 
 	for i in range(len(particles)):
 		net_force = np.zeros(2, dtype=float)
@@ -53,13 +61,17 @@ while running:
 		for j in range(len(particles)):
 			if i != j:
 				net_force += particle.calculate_grav_force(particles[j])
-		print(net_force, i)
 		particle.apply_force(net_force)
 
 	screen.fill((255, 255, 255))
 
+	for p in range(len(path)):
+		if p < len(path)-len(particles)-1:
+			pygame.draw.aaline(screen, path[p][1], path[p][0], path[p+len(particles)][0], 1)
+
 	for particle in particles:
 		particle.update(dt)
+		path.append([particle.pos, particle.color])
 		particle.draw(screen)
 
 	pygame.display.flip()

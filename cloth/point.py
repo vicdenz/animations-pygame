@@ -2,7 +2,7 @@ import pygame
 import numpy as np
 
 class Point:
-	def __init__(self, x, y, radius, color, fixed=False, acc=np.zeros(2, dtype=float)):
+	def __init__(self, x, y, color, radius=1, fixed=False, acc=np.zeros(2, dtype=float)):
 		self.pos = np.array([x, y], dtype=float)
 		self.last_pos = self.pos
 
@@ -25,4 +25,4 @@ class Point:
 			self.pos = new_pos
 	
 	def draw(self, screen):
-		pygame.draw.circle(screen, self.color, self.pos.astype(int), self.radius)
+		pygame.draw.circle(screen, self.color, self.pos, self.radius)

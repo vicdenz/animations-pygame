@@ -52,6 +52,6 @@ while running:
 		else:
 			r += 1
 
-	pygame.display.flip()
+	pygame.display.update()
 
 pygame.quit()

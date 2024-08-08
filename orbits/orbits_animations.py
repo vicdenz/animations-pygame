@@ -74,7 +74,7 @@ while running:
 		path.append([particle.pos, particle.color])
 		particle.draw(screen)
 
-	pygame.display.flip()
+	pygame.display.update()
 	clock.tick(FPS)
 
 pygame.quit()

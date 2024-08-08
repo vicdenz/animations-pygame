@@ -20,24 +20,22 @@ gravity = np.array([0, 1], dtype=float)
 
 def load_cloth(path):
 	cloth_data = json.load(open(path, 'r'))
-	offset = cloth_data['offset']
 	scale = cloth_data['scale']
 
 	points = []
 	for point in cloth_data['points']:
-		points.append(Point(offset+point[0]*scale, offset+point[1]*scale, color, acc=gravity))
+		points.append(Point(cloth_data['offset']+point[0]*scale, cloth_data['offset']+point[1]*scale, cloth_data['color'], acc=gravity))
 
 	edges = []
 	for edge in cloth_data['edges']:
-		edges.append(Edge(points[edge[0]], points[edge[1]], color))
+		edges.append(Edge(points[edge[0]], points[edge[1]], cloth_data['color'], elasticity=cloth_data['elasticity']))
 
 	for p in cloth_data['fixed']:
 		points[p].fixed = True
 	
 	return points, edges, scale
 
-points, edges, scale = load_cloth("rag.json")
-
+points, edges, scale = load_cloth("box.json")
 cloth = pygame.Surface(SCREEN_SIZE, pygame.SRCALPHA)
 
 def draw_screen(screen):
@@ -58,7 +56,7 @@ def draw_screen(screen):
 		for edge in edges:
 			edge.draw(screen)
 
-	pygame.display.flip()
+	pygame.display.update()
 
 render_cloth = False
 last_time = time.time()
